@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+.container-pedidos {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    margin-top: 200px;
+}
+
+.sem-pedidos {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+}
+
+.btn-comprar {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.lista-pedidos {
+    margin-top: 30px;
+}
+
+.pedido {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.pedido-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.pedido-id {
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.pedido-data {
+    color: #666;
+}
+
+.pedido-status {
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.status-processando {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-pendente {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-cancelado {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-entregue {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.pedido-total {
+    font-weight: bold;
+}
+
+.pedido-produtos {
+    padding: 15px;
+}
+
+.produto {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.produto:last-child {
+    border-bottom: none;
+}
+
+.produto-nome {
+    flex-grow: 1;
+}
+
+.produto-quantidade {
+    width: 80px;
+    text-align: center;
+}
+
+.produto-preco {
+    width: 120px;
+    text-align: right;
+}
+
+.produto-subtotal {
+    width: 120px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.pedido-acoes {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.btn-cancelar {
+    padding: 8px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}

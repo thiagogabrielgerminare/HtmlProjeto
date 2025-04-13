@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - MarketSpin</title>
+    <link rel="stylesheet" href="../static/perfil.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div class="cabecalho">
+        <div class="logo-empresa">
+            <a href="{{ url_for('pag_inicial') }}"><img src="../static/images/logo.png" alt="SpinMarket" class="img-logo"></a>
+        </div>
+        
+        <ul class="lista-menu">
+            <a href="{{ url_for('categoria', categoria='Madeiras') }}">
+                <li>Madeiras</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Borrachas') }}">
+                <li>Borrachas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Raquetes') }}">
+                <li>Raquetes</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Bolas') }}">
+                <li>Bolas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Acessórios') }}">
+                <li>Acessórios</li>
+            </a>
+            
+            <li class="icone-perfil">
+                <a href="{{ url_for('perfil') }}"><i class="fas fa-user"></i></a>
+            </li>
+            
+            <li class="icone-carrinho">
+                <a href="{{ url_for('carrinho') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="contador">{{ session.get('carrinho', [])|length }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <h1>Meu Perfil</h1>
+    <div class="container-perfil">
+
+        <div id="informacoes-perfil">
+            <div class="perfil-info">
+                <h2>Informações Atuais</h2>
+                <div class="info-group">
+                    <label>Nome:</label>
+                    <span>{{ cliente.nome }}</span>
+                </div>
+                <div class="info-group">
+                    <label>Email:</label>
+                    <span>{{ cliente.email }}</span>
+                </div>
+            </div>
+            
+            <div class="perfil-form">
+                <h2>Alterar Dados</h2>
+                <form action="{{ url_for('perfil') }}" method="POST">
+                    <div class="form-group">
+                        <label for="novo_nome">Novo Nome</label>
+                        <input type="text" id="novo_nome" name="novo_nome" placeholder="Digite seu novo nome">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="senha_atual">Senha Atual*</label>
+                        <input type="password" id="senha_atual" name="senha_atual" placeholder="Digite sua senha atual" required>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="nova_senha">Nova Senha</label>
+                        <input type="password" id="nova_senha" name="nova_senha" placeholder="Digite a nova senha">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="confirmar_senha">Confirmar Nova Senha</label>
+                        <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme a nova senha">
+                    </div>
+            
+                    <p class="obs">*Obrigatório para qualquer alteração</p>
+            
+                    <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="perfil-acoes">
+            <a href="{{ url_for('meus_pedidos') }}" class="btn-pedidos">
+                <i class="fas fa-shopping-bag"></i> Meus Pedidos
+            </a>
+            
+            <a href="{{ url_for('logout') }}" class="btn-sair">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

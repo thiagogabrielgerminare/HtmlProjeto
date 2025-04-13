@@ -1,0 +1,145 @@
+/* Header */
+.cabecalho {
+    background-color: #1a3a8f;
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.img-logo {
+    height: 50px;
+}
+
+.lista-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 25px;
+}
+
+.lista-menu a{
+    color: white;
+    text-decoration: none;
+}
+
+.lista-menu li:hover{
+    cursor: pointer;
+    color: #ffd700;
+}
+
+.icone-carrinho {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.icone-carrinho:hover {
+    color: #ffd700;
+}
+
+.icone-carrinho {
+    position: relative;
+}
+
+.contador {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff3333;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Footer */
+.rodape {
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    background-color: #1a3a8f;
+    color: white;
+}
+
+#pagamento h3, .sobre h3, .contato h3, #social h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#pagamento h3::after, .sobre h3::after, .contato h3::after, #social h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: #ffd700;
+}
+
+.contato p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.contato i {
+    margin-right: 10px;
+    color: #ffd700;
+}
+
+#pagamento ul{
+    list-style: none;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+}
+
+#pagamento img{
+    width: 70px;
+}
+
+#formasPagamento {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#formasPagamento img {
+    width: 70px;
+}
+
+.social-icons span {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin: 10px;
+}
+
+.social-icons span img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+}

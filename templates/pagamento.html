@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - MarketSpin</title>
+    <link rel="stylesheet" href="../static/pagamento.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div class="cabecalho">
+        <div class="logo-empresa">
+            <a href="{{ url_for('pag_inicial') }}"><img src="../static/images/logo.png" alt="SpinMarket" class="img-logo"></a>
+        </div>
+        
+        <ul class="lista-menu">
+            <a href="{{ url_for('categoria', categoria='Madeiras') }}">
+                <li>Madeiras</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Borrachas') }}">
+                <li>Borrachas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Raquetes') }}">
+                <li>Raquetes</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Bolas') }}">
+                <li>Bolas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Acessórios') }}">
+                <li>Acessórios</li>
+            </a>
+            
+            <li class="icone-perfil">
+                <a href="{{ url_for('perfil') }}"><i class="fas fa-user"></i></a>
+            </li>
+            
+            <li class="icone-carrinho">
+                <a href="{{ url_for('carrinho') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="contador">{{ session.get('carrinho', [])|length }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-pagamento">        
+        <div class="resumo-pedido">
+            <h2>Resumo do Pedido</h2>
+            <div class="itens-pedido">
+                {% for produto in produtos %}
+                <div class="item-pedido">
+                    <span>{{ produto.nome }} ({{ produto.quantidade }}x)</span>
+                    <span>R$ {{ "%.2f"|format(produto.subtotal) }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="totais">
+                <div class="linha-total">
+                    <span>Subtotal:</span>
+                    <span>R$ {{ "%.2f"|format(subtotal) }}</span>
+                </div>
+                <div class="linha-total">
+                    <span>Frete:</span>
+                    <span>R$ {{ "%.2f"|format(frete) }}</span>
+                </div>
+                <div class="linha-total total-final">
+                    <span>Total:</span>
+                    <span>R$ {{ "%.2f"|format(total) }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="formas-pagamento">
+            <h2>Forma de Pagamento</h2>
+            <form id="formPagamento" action="{{ url_for('finalizar_pedido') }}" method="POST">
+                <div class="opcao-pagamento">
+                    <input type="radio" id="pix" name="pagamento" value="pix" checked>
+                    <label for="pix">
+                        <img src="../static/images/pix.png" alt="PIX">
+                        <span>PIX</span>
+                    </label>
+                </div>
+                
+                <div class="opcao-pagamento">
+                    <input type="radio" id="cartao" name="pagamento" value="cartao">
+                    <label for="cartao">
+                        <img src="../static/images/credit-card.png" alt="Cartão">
+                        <span>Cartão de Crédito</span>
+                    </label>
+                    
+                    <div class="dados-cartao" id="dados-cartao" style="display: none;">
+                        <div class="form-group">
+                            <label for="numero-cartao">Número do Cartão</label>
+                            <input type="text" id="numero-cartao" name="numero-cartao" placeholder="1234 5678 9012 3456">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nome-cartao">Nome no Cartão</label>
+                            <input type="text" id="nome-cartao" name="nome-cartao" placeholder="Nome como no cartão">
+                        </div>
+                        
+                        <div class="form-group-duplo">
+                            <div>
+                                <label for="validade-cartao">Validade</label>
+                                <input type="text" id="validade-cartao" name="validade-cartao" placeholder="MM/AA">
+                            </div>
+                            <div>
+                                <label for="cvv-cartao">CVV</label>
+                                <input type="text" id="cvv-cartao" name="cvv-cartao" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-finalizar-pagamento">Finalizar Pagamento</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cartao').addEventListener('change', function() {
+            document.getElementById('dados-cartao').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        document.getElementById('pix').addEventListener('change', function() {
+            document.getElementById('dados-cartao').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos - MarketSpin</title>
+    <link rel="stylesheet" href="../static/meus_pedidos.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div class="cabecalho">
+        <div class="logo-empresa">
+            <a href="{{ url_for('pag_inicial') }}"><img src="../static/images/logo.png" alt="SpinMarket" class="img-logo"></a>
+        </div>
+        
+        <ul class="lista-menu">
+            <a href="{{ url_for('categoria', categoria='Madeiras') }}">
+                <li>Madeiras</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Borrachas') }}">
+                <li>Borrachas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Raquetes') }}">
+                <li>Raquetes</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Bolas') }}">
+                <li>Bolas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Acessórios') }}">
+                <li>Acessórios</li>
+            </a>
+            
+            <li class="icone-perfil">
+                <a href="{{ url_for('perfil') }}"><i class="fas fa-user"></i></a>
+            </li>
+            
+            <li class="icone-carrinho">
+                <a href="{{ url_for('carrinho') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="contador">{{ session.get('carrinho', [])|length }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-pedidos">
+        <h1>Meus Pedidos</h1>
+        
+        {% if not pedidos %}
+            <div class="sem-pedidos">
+                <p>Você ainda não fez nenhum pedido</p>
+                <a href="{{ url_for('pag_inicial') }}" class="btn-comprar">Ir para Loja</a>
+            </div>
+        {% else %}
+            <div class="lista-pedidos">
+                {% for pedido in pedidos %}
+                <div class="pedido">
+                    <div class="pedido-cabecalho">
+                        <div>
+                            <span class="pedido-id">Pedido #{{ pedido.id }}</span>
+                            <span class="pedido-data">{{ pedido.data.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </div>
+                        <div>
+                            <span class="pedido-status">{{ pedido.status }}</span>
+                            <span class="pedido-total">R$ {{ "%.2f"|format(pedido.total) }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pedido-produtos">
+                        {% for produto in pedido.produtos %}
+                        <div class="produto">
+                            <span class="produto-nome">{{ produto.nome }}</span>
+                            <span class="produto-quantidade">{{ produto.quantidade }}x</span>
+                            <span class="produto-preco">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                            <span class="produto-subtotal">R$ {{ "%.2f"|format(produto.subtotal) }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if pedido.status in ['Finalizado'] %}
+                    <div class="pedido-acoes">
+                        <form action="{{ url_for('cancelar_pedido', pedido_id=pedido.id) }}" method="POST">
+                            <button type="submit" class="btn-cancelar">Cancelar Pedido</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

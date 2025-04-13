@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+.container-perfil {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    margin-top: 150px;
+    display: flex;
+}
+
+.perfil-info, .perfil-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.perfil-form{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    text-align: center;
+}
+
+.perfil-info h2, .perfil-form h2 {
+    color: #283672;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.info-group {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.info-group label {
+    font-weight: bold;
+    width: 100px;
+}
+
+.perfil-form {
+    margin-top: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+.perfil-form form {
+    flex: 2;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.obs {
+    font-size: 12px;
+    color: #666;
+    margin: -10px 0 20px;
+}
+
+
+.btn-salvar {
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.perfil-acoes {
+    flex: 1;
+    margin-left: 100px;
+}
+
+.btn-pedidos, .btn-sair {
+    display: block;
+    padding: 12px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-pedidos {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-sair {
+    background-color: #dc3545;
+    color: white;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}

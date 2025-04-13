@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ produto.nome }} - MarketSpin</title>
+    <link rel="stylesheet" href="../static/produto.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="cabecalho">
+        <div class="logo-empresa">
+            <a href="{{ url_for('pag_inicial') }}"><img src="../static/images/logo.png" alt="SpinMarket" class="img-logo"></a>
+        </div>
+        
+        <ul class="lista-menu">
+            <a href="{{ url_for('categoria', categoria='Madeiras') }}">
+                <li>Madeiras</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Borrachas') }}">
+                <li>Borrachas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Raquetes') }}">
+                <li>Raquetes</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Bolas') }}">
+                <li>Bolas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Acessórios') }}">
+                <li>Acessórios</li>
+            </a>
+            
+            <li class="icone-perfil">
+                <a href="{{ url_for('perfil') }}"><i class="fas fa-user"></i></a>
+            </li>
+            
+            <li class="icone-carrinho">
+                <a href="{{ url_for('carrinho') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="contador">{{ session.get('carrinho', [])|length }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-produto">
+        <div class="galeria-produto">
+            <div class="imagem-principal">
+                <img src="{{ url_for('static', filename='images/' + produto.imagem) }}" alt="{{ produto.nome }}" id="imagemGrande">
+            </div>
+        </div>
+        
+        <div class="info-produto">
+            <h1>{{ produto.nome }}</h1>
+            <div class="codigo-categoria">
+                <span>Código: {{ produto.id }}</span>
+                <span>Categoria: {{ produto.categoria }}</span>
+            </div>
+            
+            <div class="preco">
+                <span class="preco-atual">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                <span class="parcelamento">{{ produto.parcelamento }}</span>
+                <span class="preco-pix">ou R$ {{ "%.2f"|format(produto.preco_pix) }} no PIX</span>
+            </div>
+            
+            <div class="quantidade">
+                <label for="quantidade">Quantidade:</label>
+                <div class="controle-quantidade">
+                    <button class="btn-quantidade" onclick="alterarQuantidade(-1)">-</button>
+                    <span id="quantidade">1</span>
+                    <button class="btn-quantidade" onclick="alterarQuantidade(1)">+</button>
+                </div>
+            </div>
+            
+            <div class="acoes-produto">
+                <button class="botao-comprar" onclick="comprarAgora('{{ produto.id }}')">
+                    Comprar Agora
+                </button>
+                <button class="botao-adicionar" onclick="adicionarAoCarrinho('{{ produto.id }}')">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="descricao-produto">
+        <h2>Descrição do Produto</h2>
+        <p>{{ produto.descricao }}</p>
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let quantidade = 1;
+        
+        function alterarQuantidade(valor) {
+            quantidade += valor;
+            if (quantidade < 1) quantidade = 1;
+            document.getElementById('quantidade').textContent = quantidade;
+        }
+        
+        function comprarAgora(produtoId) {
+            const quantidade = parseInt(document.getElementById('quantidade').textContent);
+            
+            fetch('/adicionar_carrinho', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    produto_id: produtoId,
+                    quantidade: quantidade
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "{{ url_for('pagamento') }}";
+                } else {
+                    alert(data.message || 'Erro ao adicionar ao carrinho');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao processar sua compra');
+            });
+        }
+
+        function adicionarAoCarrinho(produtoId) {
+            const quantidade = parseInt(document.getElementById('quantidade').textContent);
+            
+            fetch('/adicionar_carrinho', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    produto_id: produtoId,
+                    quantidade: quantidade
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelectorAll('.contador').forEach(contador => {
+                        contador.textContent = data.total_itens;
+                    });
+                    
+                    const notification = document.createElement('div');
+                    notification.className = 'notification success';
+                    notification.textContent = 'Produto adicionado ao carrinho!';
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                } else {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'notification error';
+                    errorMsg.textContent = data.message;
+                    document.body.appendChild(errorMsg);
+                    
+                    setTimeout(() => {
+                        errorMsg.remove();
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao adicionar ao carrinho');
+            });
+        }
+    </script>
+</body>
+</html>

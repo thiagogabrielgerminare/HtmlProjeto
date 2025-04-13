@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MarketSpin</title>
+    <link rel="stylesheet" href="../static/login.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+</head>
+<body>
+
+    <header>
+        <a href="{{ url_for('index') }}"><img src="../static/images/logo.png" alt="Logo" id="logo"></a>
+        <h1>MARKETSPIN</h1>
+    </header>
+
+    <div id="formLogin">
+        <h1>Login</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" id="mensagemErro">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="{{ url_for('login') }}" method="POST">
+            <div id="inputs">
+                <input type="email" name="email" id="email" placeholder="E-mail" required>
+                <div id="senhaDiv">
+                    <input type="password" name="senha" id="senha" placeholder="Senha" required>
+                    <img src="../static/images/olho-cortado.png" id="olhinho" onclick="togglePassword()" style="cursor: pointer;" alt="">
+                </div>
+            </div>
+            <div id="divButEntrar"><button type="submit" id="butEntrar">Entrar</button></div>
+        </form>
+        <a href="{{ url_for('cadastro') }}" id="cadastre-se">Não tem conta? Cadastre-se</a>
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("senha");
+            const eyeIcon = document.getElementById("olhinho");
+        
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.src = '../static/images/olho.png';
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.src = '../static/images/olho-cortado.png';
+            }
+        }
+    </script>
+    
+</body>
+</html>

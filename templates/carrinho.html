@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - MarketSpin</title>
+    <link rel="stylesheet" href="../static/carrinho.css">
+    <link rel="stylesheet" href="../static/header-and-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div class="cabecalho">
+        <div class="logo-empresa">
+            <a href="{{ url_for('pag_inicial') }}"><img src="../static/images/logo.png" alt="SpinMarket" class="img-logo"></a>
+        </div>
+        
+        <ul class="lista-menu">
+            <a href="{{ url_for('categoria', categoria='Madeiras') }}">
+                <li>Madeiras</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Borrachas') }}">
+                <li>Borrachas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Raquetes') }}">
+                <li>Raquetes</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Bolas') }}">
+                <li>Bolas</li>
+            </a>
+            <a href="{{ url_for('categoria', categoria='Acessórios') }}">
+                <li>Acessórios</li>
+            </a>
+            
+            <li class="icone-perfil">
+                <a href="{{ url_for('perfil') }}"><i class="fas fa-user"></i></a>
+            </li>
+            
+            <li class="icone-carrinho">
+                <a href="{{ url_for('carrinho') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="contador">{{ session.get('carrinho', [])|length }}</span>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="container-carrinho">
+        <h1>Seu Carrinho</h1>
+        
+        {% if not produtos %}
+            <div class="carrinho-vazio">
+                <p>Seu carrinho está vazio</p>
+                <a href="{{ url_for('pag_inicial') }}" class="btn-continuar">Continuar Comprando</a>
+            </div>
+        {% else %}
+            <div class="lista-produtos">
+                {% for produto in produtos %}
+                <div class="item-carrinho">
+                    <img src="../static/images/{{ produto.imagem }}" alt="{{ produto.nome }}">
+                    <div class="info-produto">
+                        <h3>{{ produto.nome }}</h3>
+                        <div class="preco">R$ {{ "%.2f"|format(produto.preco) }}</div>
+                        <div class="quantidade">
+                            <button class="btn-quantidade" data-produto-id="{{ produto.id }}" data-delta="-1" onclick="atualizarQuantidade(this)">-</button>
+                            <span>{{ produto.quantidade }}</span>
+                            <button class="btn-quantidade" data-produto-id="{{ produto.id }}" data-delta="1" onclick="atualizarQuantidade(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="subtotal">R$ {{ "%.2f"|format(produto.subtotal) }}</div>
+                    <button class="btn-remover" data-produto-id="{{ produto.id }}" onclick="removerItem(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="resumo-pedido">
+                <h2>Resumo do Pedido</h2>
+                <div class="total">
+                    <span>Total:</span>
+                    <span>R$ {{ "%.2f"|format(total) }}</span>
+                </div>
+                <button class="btn-finalizar" id="finalizar-compra">Finalizar Compra</button>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="rodape">
+        <div id="pagamento">
+            <h3>Pague com</h3>
+            <ul id="formasPagamento">
+                <li><img src="../static/images/visa.png" alt=""></li>
+                <li><img src="../static/images/mastercard.png" alt=""></li>
+                <li><img src="../static/images/elo.png" alt=""></li>
+            </ul>
+            <img src="../static/images/pix.png" alt="">
+            <img src="../static/images/picpay.png" style="margin-left: 20px;" alt="">
+        </div>
+        <div class="sobre">
+            <h3>Sobre a MarketSpin</h3>
+            <p style="width: 350px;">A melhor loja de tênis de mesa do Brasil, com produtos profissionais e atendimento especializado.</p>
+        </div>
+
+        <div class="contato">
+            <h3>Fale Conosco</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Av. dos Campeões, 1234</p>
+            <p><i class="fas fa-phone"></i> (11) 9876-5432</p>
+            <p><i class="fas fa-envelope"></i> contato@marketspin.com.br</p>
+        </div>
+
+        <div id="social">
+            <h3>Redes sociais</h3>
+            <div class="social-icons">
+                <span><img src="../static/images/facebook.png" alt=""></span>
+                <span><img src="../static/images/instagram.png" alt=""></span>
+                <span><img src="../static/images/x.png" alt=""></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function atualizarQuantidade(button) {
+            const produtoId = button.getAttribute('data-produto-id');
+            const delta = button.getAttribute('data-delta');
+            fetch('/atualizar_carrinho', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    produto_id: produtoId,
+                    quantidade: delta
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+        
+        function removerItem(button) {
+            const produtoId = button.getAttribute('data-produto-id');
+            const itemElement = button.closest('.item-carrinho');
+            
+            if (!confirm('Tem certeza que deseja remover este item do carrinho?')) {
+                return;
+            }
+            
+            fetch('/remover_item_carrinho', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    produto_id: produtoId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    itemElement.remove();
+                    
+                    document.querySelectorAll('.contador').forEach(contador => {
+                        contador.textContent = data.total_itens;
+                    });
+                    
+                    document.querySelector('.total span:last-child').textContent = 
+                        'R$ ' + data.total.toFixed(2);
+                    
+                    if (data.total_itens === 0) {
+                        document.querySelector('.lista-produtos').innerHTML = `
+                            <div class="carrinho-vazio">
+                                <p>Seu carrinho está vazio</p>
+                                <a href="{{ url_for('pag_inicial') }}" class="btn-continuar">
+                                    Continuar Comprando
+                                </a>
+                            </div>
+                        `;
+                    }
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao remover o item');
+            });
+        }
+
+        document.getElementById('finalizar-compra').addEventListener('click', function() {
+        window.location.href = "{{ url_for('pagamento') }}";
+        });
+    </script>
+</body>
+</html>

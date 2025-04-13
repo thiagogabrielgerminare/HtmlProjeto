@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #1e428f;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: 700px;
+}
+
+#logo{
+    width: 50px;
+}
+
+#formLogin, #formCadastro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    margin-top: 160px;
+}
+
+#formLogin h1, #formCadastro h1{
+    margin-bottom: 30px;
+}
+
+#formLogin input, #formCadastro input{
+    width: 450px;
+    padding: 8px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+#mensagemErro{
+    color: red;
+    margin-bottom: 20px;
+}
+
+#inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#senhaDiv{
+    position: relative;
+}
+
+#olhinho {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    top: 10px;
+}
+
+#divButEntrar{
+    display: flex;
+    justify-content: center;
+}
+
+#butEntrar{
+    padding: 8px;
+    width: 80px;
+    border-radius: 10px;
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+#butCadastrar{
+    padding: 8px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+#cadastre-se, #faça-login{
+    color: blue;
+    text-decoration: none;
+    margin-bottom: 40px;
+}
