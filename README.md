@@ -38,14 +38,14 @@ Configurar a string de conexão no arquivo app.py:
 
 
 Como Executar
-Clone o repositório
-
-Instale as dependências
-
-Configure o banco de dados
-
-Execute o aplicativo Flask:
-  python app.py
+  - Clone o repositório
+  
+  - Instale as dependências
+  
+  - Configure o banco de dados
+  
+  - Execute o aplicativo Flask:
+      python app.py
   
 O aplicativo estará disponível em http://localhost:5000
 
