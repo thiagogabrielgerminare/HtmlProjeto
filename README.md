@@ -49,6 +49,10 @@ Como Executar
   
 O aplicativo estará disponível em http://localhost:5000
 
+Integrantes:
+  - Thiago Gabriel Marinho Cardoso
+  - Leonardo Nakashima Chen
+  - João Victor Silva de Camargo
 
 Licença
 Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para obter mais informações.
